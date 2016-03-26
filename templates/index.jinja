@@ -1,0 +1,92 @@
+{% extends 'base.jinja' %}
+
+{% block main %}
+
+  <form method="post">
+
+    <div class="form-group row">
+      <label for="product" class="col-sm-2 form-control-label">Product:</label>
+     
+      <div class="col-sm-8">
+        <select class="form-control" id="product" name="product" onchange="update_price()">
+
+          <!-- the value attribute is what will be sent to the server when a form is submitted -->
+          <option value="">-----</option>
+          {% for product in products %}
+            <option value="{{ loop.index - 1 }}">{{ product.name }}</option>
+          {% endfor %}
+          
+        </select>
+      </div>
+
+
+      <div class="col-sm-2 form-control-label">
+        Price:
+        <span id="product-price">
+          <!-- TODO -->
+          <!-- Have to display the price corresponding to the selected product.
+          {% if products[product_id] %}
+            {{ products[product_id].price }}
+          {% endif %}
+          -->
+
+        </span>
+      </div>
+
+
+    </div>
+
+
+    <div class="form-group row">
+      <label for="buyer" class="col-sm-2 form-control-label">Buyer:</label>
+      <div class="col-sm-10">
+
+        <!-- Buyer info-->
+        <input type="text" class="form-control" id="buyer" name="buyer" placeholder="Buyer" value="{{ buyer }}" required>
+
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label for="paid" class="col-sm-2 form-control-label">Amount Paid:</label>
+      <div class="col-sm-10">
+
+        <!-- could we use a better input type here? -->
+        <!-- changed type from text to number-->
+        <input type="number" class="form-control" id="paid" name="paid" placeholder="Amount Paid" value="{{ paid }}" required>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Place Order</button>
+        <button type="button" class="btn btn-info" id="view-orders">View Orders</button>
+      </div>
+    </div>
+
+
+  </form>
+
+  
+
+  <script>
+    var products = {{ products|tojson|safe }};
+
+    function update_price() {
+              var selected_index = document.querySelector("#product").value;
+              var product_price = selected_index ? products[selected_index].price : "0.00";
+              document.querySelector('#product-price').innerHTML = product_price;
+            }
+
+    // document.querySelector('#product').onchange = update_price   
+
+    document.querySelector('#view-orders').onclick = function() {
+      document.location.pathname = "/orders/"
+    };
+
+  </script>
+
+
+{% endblock %}

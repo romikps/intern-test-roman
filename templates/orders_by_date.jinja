@@ -1,0 +1,27 @@
+{% extends 'base.jinja' %}
+
+{% block main %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<ul>
+
+	{% for date in date_list %}
+	<li>
+
+		<h3>{{ date }}</h3>
+
+
+		<table class="table table-condensed">
+			<tr><th>#</th><th>Order's ID</th><th>Product's ID</th></tr>
+			{% for order in orders_by_date[date] %}
+				<tr><td><b>{{ loop.index }}</b></td><td>{{ order['order_id'] }}</td><td>{{ order['product_id'] }}</td></tr>
+			{% endfor %}
+
+		</table>
+		
+	</li>
+	{% endfor %}
+</ul>
+
+{% endblock %}
